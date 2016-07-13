@@ -1,7 +1,7 @@
 {
   "name": "tag-match-api",
   "version": "0.0.1",
-  "description": "Lightweight tool for matching tags in a corpus asyncronously.",
+  "description": "Lightweight tool for matching tags in a corpus asynchronously.",
   "main": "tagmatch.js",
   "scripts": {
     "test": "node tests/test.js"
