@@ -1,6 +1,6 @@
 {
   "name": "tag-match",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "keywords": ["tag","query","match","transform","search","async"],
   "description": "Lightweight tool for matching tags in a corpus asynchronously.",
   "repository": {

@@ -1,9 +1,7 @@
 (function () {
 'use strict';
 
-// Establish the root object, `window` (`self`) in the browser, `global`
-// on the server, or `this` in some virtual machines. We use `self`
-// instead of `window` for `WebWorker` support.
+// Establish the root object
 var root = typeof self === 'object' && self.self === self && self ||
   typeof global === 'object' && global.global === global && global ||
   this;
@@ -21,51 +19,63 @@ function TagMatch(corpus, query) {
 TagMatch.prototype.generate = function () {
   var _this = this;
 
+  // Create a promise to wrap around the synchronous generate alg:
   return new Promise(function (resolve, reject) {
     _this.syncGenerate();
-    resolve({
-      result: _this.getResult(),
-      keys: _this.getResultKeys(),
-      matches: _this.getMatches(),
-      matchless: _this.getMatchless(),
-    });
+    resolve(_this.getResult());
   });
 };
 
 TagMatch.prototype.syncGenerate = function () {
-  this.clearResults(); // clear firts
   var query = this._query;
   var corpus = this._corpus;
 
+  // clear all results first
+  this.clearResults();
+
   // quick check to save time
   if (Object.keys(corpus).length == 0 || query.length == 0) {
-    this._result = {}; // no possible results
     return this; // don't continue
   }
 
-  // start sync alg
+  // make references to each object
+  var resultRef = {};
   var result = this._result;
   var matches = this._matches;
   var matchless = this._matchless;
 
+  // for each item in the corpus
   Object.keys(corpus).map(function (id) {
-    var arr = corpus[id].filter(function (tag) {
-      return (query.indexOf(tag) > -1);
+
+    // 1. find intersection
+    var arr = query.filter(function (tag) {
+      return (corpus[id].indexOf(tag) > -1);
     });
 
-    arr.sort();
-    if (arr.length > 0) { // found matches
-      if (typeof result[arr] !== 'object')
-        result[arr] = [];
-      result[arr].push(id);
+    // 2. attach to references
+    if (arr.length > 0) {
+      // found match? check if match exists:
+      if (typeof resultRef[arr] === 'undefined') {
+        result.push({
+          key: arr,
+          val: [],
+        });
+        resultRef[arr] = result.length - 1;
+      }
+
+      result[resultRef[arr]].val.push(id);
       matches.push(id);
     } else {
       matchless.push(id);
     }
   });
 
-  matches.sort();
-  matchless.sort();
+  // sort
+  result.sort(function (a, b) {
+    var diff = b.key.length - a.key.length;
+    diff = (diff != 0) ? diff : a.val.length - b.val.length;
+    return diff;
+  });
 
   return this;
 };
@@ -86,10 +96,8 @@ TagMatch.prototype.getResult = function () {
 };
 
 TagMatch.prototype.getResultKeys = function () {
-  return Object.keys(this._result).map(function (item) {
-    return item.split(',');
-  }).sort(function (a, b) {
-    return b.length - a.length;
+  return this._result.map(function (item) {
+    return item.key;
   });
 };
 
@@ -110,7 +118,7 @@ TagMatch.prototype.getQuery = function () {
 };
 
 TagMatch.prototype.clearResults = function () {
-  this._result = {};
+  this._result = [];
   this._matches = [];
   this._matchless = [];
   return this;

@@ -64,11 +64,17 @@ var query = ['tag1','tag3','tag5', ...];
 
 // OUTPUT
 
-var result = {
-  ['tag1', 'tag3']: ['id1', 'id2'],
-  ['tag1', 'tag5']: ['id3'],
+var result = [
+  {
+    key: ['tag1', 'tag3'],
+    val: ['id1', 'id2'],
+  },
+  {
+    key: ['tag1', 'tag5'],
+    val: ['id3'],
+  },
   ...
-}
+]
 
 var keys = [['tag1', 'tag3'], ['tag1', 'tag5']];
 
@@ -76,6 +82,8 @@ var matches = ['id1', 'id2', 'id3', ...];
 
 var matchless = [...];
 ```
+
+Note: result is sorted with the most # of key matches are in front. If those lengths are the same, then least # of val matches are in front. The only thing that isn't sorted is the order of each val, and the matches and matchless.
 
 ## Conclusion
 

@@ -24,11 +24,11 @@ var syncTimeElapsed = 0;
 
 // test 1, async
 var matcher = new TagMatch(corpus, query);
-matcher.generate().then(function ({ result, keys, matches, matchless }) {
+matcher.generate().then(function (result) {
   asyncTimeElapsed = Date.now() - startTime;
-  console.log('RESULTS:', keys.length);
-  console.log('MATCHES:', matches.length);
-  console.log('MATCHLESS:', matchless.length);
+  console.log('RESULTS:', result.length);
+  console.log('MATCHES:', matcher.getMatches().length);
+  console.log('MATCHLESS:', matcher.getMatchless().length);
 
   printTimes();
 },
