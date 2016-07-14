@@ -2,7 +2,7 @@
 
 is a lightweight, asynchronous matching algorithm that reads a corpus, takes in queries, and returns a transformed object that represent all matches found. (A synchronous method is available as well.)
 
-Motivations: there are many cases where a tag-matching api can be applied. For example, I am currently working on a university involvement fair platform in which we've catalogued every single student organization with a set of tags. A student using our platform would provide a query of tags that he or she is most interested in, such as `[Engineering, Design, Business]`. These tags intersect for some clubs. Other clubs may only match one tag, and many others none at all. The Tag Match API will isolate those matches and intersections for you.
+Motivations: there are many cases where a tag-matching api can be applied. For example, in the case of a university involvement fair platform in which we've catalogued every single student organization with a set of tags. A student using our platform would provide a query of tags that he or she is most interested in, such as `[Engineering, Design, Business]`. These tags intersect for some clubs. Other clubs may only match one tag, and many others none at all. The Tag Match API will isolate those matches and intersections for you.
 
 While this API isn't "smart"—it will not blurry-match—there are many other use cases, especially for searching a catalogue using pre-determined tags. Ideas: NGOs, recipes, companies, movies, books, etc.
 
