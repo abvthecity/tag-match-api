@@ -132,7 +132,9 @@ TagMatch.prototype.getResult = function () {
 };
 
 TagMatch.prototype.getResultKeys = function () {
-  return Object.keys(this._result).sort(function (a, b) {
+  return Object.keys(this._result).map(function (item) {
+    return item.split(',');
+  }).sort(function (a, b) {
     return b.length - a.length;
   });
 };
