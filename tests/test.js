@@ -19,4 +19,6 @@ matcher.generate().then(({ result, keys, matches, matchless }) => {
   console.log('KEYS:', keys);
   console.log('MATCHES:', matches);
   console.log('MATCHLESS:', matchless);
+  console.log('QUERY:', matcher.getQuery());
+  console.log('CORPUS:', matcher.getCorpus());
 });
