@@ -1,16 +1,16 @@
 # Tag Match API
 
-is a simple, fast, lightweight, and async matching algorithm that reads a corpus, takes in queries, then return a transformed object that represent all matches found. (An sync algorithm is available as well.)
+is a lightweight, asynchronous matching algorithm that reads a corpus, takes in queries, and returns a transformed object that represent all matches found. (A synchronous method is available as well.)
 
-Motivations: there are many cases that this api can be applied, in order to quickly match a search query with their tags. For example, I am currently working on a university involvement fair platform in which we catalogue every single student organization with a set of tags. A student would provide a query of tags they are most interested in, such as `[Engineering, Design, Business]`. In some clubs, these tags intersect. Other clubs may only match one tag, and many others none at all. The Tag Match API will isolate those matches and intersections for you.
+Motivations: there are many cases where a tag-matching api can be applied. For example, I am currently working on a university involvement fair platform in which we've catalogued every single student organization with a set of tags. A student using our platform would provide a query of tags that he or she is most interested in, such as `[Engineering, Design, Business]`. These tags intersect for some clubs. Other clubs may only match one tag, and many others none at all. The Tag Match API will isolate those matches and intersections for you.
 
-While this API isn't "smart"—it will not blurry-match—there are many use cases for such an API besides my example above. Perhaps you are creating a platform for searching NGOs, recipes, companies, movies, books, etc. based on interests or some form of tags.
+While this API isn't "smart"—it will not blurry-match—there are many other use cases, especially for searching a catalogue using pre-determined tags. Ideas: NGOs, recipes, companies, movies, books, etc.
 
 ## How to use
 
-The Tag Match API is packaged as a class, in which may update the `corpus` and the `query` at any time you wish.
+The Tag Match API is packaged as a class. You may update the `corpus` and the `query` at any time that you wish.
 
-First, import the TagMatch api. Then, create a new tag matcher:
+First, let's import the TagMatch API...
 
 ```javascript
 var TagMatch = require('./tagmatch');
@@ -21,7 +21,7 @@ var matcher2 = new TagMatch(corpus);
 var matcher3 = new TagMatch(corpus, query);
 ```
 
-Notice you can declare the corpus and query in the constructor, or you can do it later...
+Notice how you can declare the corpus and query in the constructor, or how you can do it later...
 
 ```javascript
 matcher.setCorpus(corpus).setQuery(query);
@@ -79,8 +79,8 @@ var matchless = [...];
 
 ## Conclusion
 
-Thanks for taking a look at this small little api!
+Thanks for taking a look at this small javascript API!
 
-This api is originally written for javascript. It also has dependencies: async, promise. In the near future I will upload possibly a polymorphic version without dependencies.
+Dependencies: async, promise.
 
 Authored by Andrew Jiang.

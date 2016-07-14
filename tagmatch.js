@@ -2,11 +2,7 @@ var Promise = require('promise');
 var async = require('async');
 
 function TagMatch(corpus, query) {
-  this._corpus = {};
-  this._query = [];
-  this._result = {};
-  this._matches = [];
-  this._matchless = [];
+  this.clearAll();
   this.setCorpus(corpus);
   this.setQuery(query);
 };
@@ -15,14 +11,12 @@ TagMatch.prototype.generate = function () {
   var _this = this;
 
   return new Promise(function (resolve, reject) {
+    _this.clearResults(); // clear firts
     var query = _this._query;
     var corpus = _this._corpus;
 
     // quick check to save time
     if (Object.keys(corpus).length == 0 || query.length == 0) {
-      _this._result = {}; // no possible results
-      _this._matchless = [];
-
       resolve({
         result: {},
         keys: [],
@@ -32,9 +26,9 @@ TagMatch.prototype.generate = function () {
     }
 
     // start async alg
-    var finalResult = {};
-    var matches = [];
-    var matchless = [];
+    var result = _this._result;
+    var matches = _this._matches;
+    var matchless = _this._matchless;
 
     // asyncronously process each item in the corpus, then save.
     async.map(Object.keys(corpus), processCorpusItems, resolveCorpus);
@@ -52,9 +46,9 @@ TagMatch.prototype.generate = function () {
         arr.sort(); // safety
 
         if (arr.length > 0) { // found matches
-          if (typeof finalResult[arr] !== 'object')
-            finalResult[arr] = [];
-          finalResult[arr].push(id);
+          if (typeof result[arr] !== 'object')
+            result[arr] = [];
+          result[arr].push(id);
           matches.push(id);
         } else matchless.push(id);
 
@@ -64,10 +58,8 @@ TagMatch.prototype.generate = function () {
 
     function resolveCorpus(err) {
       if (err) reject(err);
-      _this._result = finalResult;
-      _this._matches = matches.sort();
-      _this._matchless = matchless.sort();
-
+      matches.sort();
+      matchless.sort();
       resolve({
         result: _this.getResult(),
         keys: _this.getResultKeys(),
@@ -81,6 +73,7 @@ TagMatch.prototype.generate = function () {
 
 TagMatch.prototype.syncGenerate = function () {
   // not recomended for large corpus!
+  _this.clearResults(); // clear firts
   var query = this._query;
   var corpus = this._corpus;
 
@@ -91,27 +84,26 @@ TagMatch.prototype.syncGenerate = function () {
   }
 
   // start sync alg
-  var finalResult = {};
-  var matches = [];
-  var matchless = [];
+  var result = _this._result;
+  var matches = _this._matches;
+  var matchless = _this._matchless;
 
   Object.keys(corpus).map(function (id) {
     var arr = corpus[id].filter(function (tag) {
       return (query.indexOf(tag) > -1);
     }).sort();
     if (arr.length > 0) { // found matches
-      if (typeof finalResult[arr] !== 'object')
-        finalResult[arr] = [];
-      finalResult[arr].push(id);
+      if (typeof result[arr] !== 'object')
+        result[arr] = [];
+      result[arr].push(id);
       matches.push(id);
     } else {
       matchless.push(id);
     }
   });
 
-  this._result = finalResult;
-  this._matches = matches.sort();
-  this._matchless = matchless.sort();
+  matches.sort();
+  matchless.sort();
 
   return this;
 };
@@ -153,6 +145,20 @@ TagMatch.prototype.getCorpus = function () {
 
 TagMatch.prototype.getQuery = function () {
   return this._query;
+};
+
+TagMatch.prototype.clearResults = function () {
+  this._result = {};
+  this._matches = [];
+  this._matchless = [];
+  return this;
+};
+
+TagMatch.prototype.clearAll = function () {
+  this.clearResults();
+  this._corpus = {};
+  this._query = [];
+  return this;
 };
 
 /* —————— export —————— */

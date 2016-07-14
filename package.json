@@ -1,7 +1,11 @@
 {
   "name": "tag-match-api",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Lightweight tool for matching tags in a corpus asynchronously.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/ninjiangstar/tag-match-api"
+  },
   "main": "tagmatch.js",
   "scripts": {
     "test": "node tests/test.js"
