@@ -1,24 +1,48 @@
 var TagMatch = require('./../tagmatch');
 
-var corpus = {
-  id1: ['tag3', 'tag2', 'tag1'],
-  id2: ['tag3', 'tag4', 'tag1'],
-  id3: ['tag5', 'tag1', 'tag4'],
-};
+var corpus = {};
+var query = [];
 
-var query = ['tag3', 'tag1', 'tag5'];
+for (var i = 0; i < 1000; i++) {
+  corpus['id' + i] = [];
+  for (var j = 0; j < 2000; j++) {
+    if (Math.round(Math.random() * 0.6) == 1) {
+      corpus['id' + i].push('tag' + j);
+    }
+  }
+}
 
+for (var j = 0; j < 2000; j++) {
+  if (Math.round(Math.random() * 0.502) == 1) {
+    query.push('tag' + j);
+  }
+}
+
+var startTime = Date.now();
+var asyncTimeElapsed = 0;
+var syncTimeElapsed = 0;
+
+// test 1, async
 var matcher = new TagMatch(corpus, query);
+matcher.generate().then(function ({ result, keys, matches, matchless }) {
+  asyncTimeElapsed = Date.now() - startTime;
+  console.log('RESULTS:', keys.length);
+  console.log('MATCHES:', matches.length);
+  console.log('MATCHLESS:', matchless.length);
 
-var time = Date.now();
+  printTimes();
+},
 
-matcher.generate().then(({ result, keys, matches, matchless }) => {
-  var timeElapsed = Date.now() - time;
-  console.log('TIME ELAPSED:', timeElapsed, 'ms');
-  console.log('RESULT:', result);
-  console.log('KEYS:', keys);
-  console.log('MATCHES:', matches);
-  console.log('MATCHLESS:', matchless);
-  console.log('QUERY:', matcher.getQuery());
-  console.log('CORPUS:', matcher.getCorpus());
+function (err) {
+  console.error(err);
 });
+
+// test 2, sync
+var matcher2 = new TagMatch(corpus, query);
+matcher2.syncGenerate();
+syncTimeElapsed = Date.now() - startTime;
+
+function printTimes() {
+  console.log('SYNC TIME ELAPSED:', syncTimeElapsed, 'ms');
+  console.log('ASYNC TIME ELAPSED:', asyncTimeElapsed, 'ms');
+}
