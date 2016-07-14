@@ -1,6 +1,7 @@
 {
   "name": "tag-match-api",
   "version": "1.0.0",
+  "keywords": ["tag","match","query","corpus","transform","search","async","tool"],
   "description": "Lightweight tool for matching tags in a corpus asynchronously.",
   "repository": {
     "type": "git",
