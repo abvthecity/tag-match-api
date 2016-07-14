@@ -1,7 +1,7 @@
 {
   "name": "tag-match",
-  "version": "1.0.0",
-  "keywords": ["tag","match","query","corpus","transform","search","async","tool"],
+  "version": "1.0.1",
+  "keywords": ["tag","query","match","transform","search","async"],
   "description": "Lightweight tool for matching tags in a corpus asynchronously.",
   "repository": {
     "type": "git",
@@ -14,7 +14,6 @@
   "author": "Andrew Jiang",
   "license": "MIT",
   "dependencies": {
-    "async": "^2.0.0",
     "promise": "^7.1.1"
   }
 }

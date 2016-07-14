@@ -141,7 +141,7 @@ else if (typeof define === 'function' && define.amd) {
 
 // included directly via <script> tag
 else {
-  root.setOps = TagMatch;
+  root.TagMatch = TagMatch;
 }
 
 })();

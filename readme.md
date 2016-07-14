@@ -10,7 +10,7 @@ While this API isn't "smart"—it will not blurry-match—there are many other u
 
 The Tag Match API is packaged as a class. You may update the `corpus` and the `query` at any time that you wish.
 
-First, let's import the TagMatch API...
+First, let's import the TagMatch API... This API will work on both Node.js and in the browser.
 
 ```javascript
 var TagMatch = require('./tagmatch');
@@ -81,6 +81,6 @@ var matchless = [...];
 
 Thanks for taking a look at this small javascript API!
 
-Dependencies: async, promise.
+Dependency: promise.
 
 Authored by Andrew Jiang.
