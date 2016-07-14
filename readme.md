@@ -1,6 +1,6 @@
 # Tag Match API
 
-is a lightweight, asynchronous matching algorithm that reads a corpus, takes in queries, and returns a transformed object that represent all matches found. (A synchronous method is available as well.)
+is a lightweight, thenable tag-matching algorithm that reads a corpus, takes in queries, and returns a transformed object that represent all matches found. (A synchronous method is available as well.)
 
 Motivations: there are many cases where a tag-matching api can be applied. For example, in the case of a university involvement fair platform in which we've catalogued every single student organization with a set of tags. A student using our platform would provide a query of tags that he or she is most interested in, such as `[Engineering, Design, Business]`. These tags intersect for some clubs. Other clubs may only match one tag, and many others none at all. The Tag Match API will isolate those matches and intersections for you.
 
@@ -27,18 +27,19 @@ Notice how you can declare the corpus and query in the constructor, or how you c
 matcher.setCorpus(corpus).setQuery(query);
 ```
 
-Then, you can generate in 2 ways. Asynchronously, or synchronously. If you have a large corpus, async is probably better.
+Then, you can generate in 2 ways. Asynchronously, or synchronously. If you have a large corpus, the asynchronous, thenable function is more recommended. (The thenable function is just the synchronous function wrapped in a promise.)
 
 ```javascript
-// async
+// async, thenable
 matcher.generate().then(function (result) {
   console.log(result);
+  // matcher.getResult(); produces the same result here.
 });
 
 // sync
 matcher.syncGenerate();
 var result = matcher.getResult();
-var keys = matcher.getResultKeys();
+var tags = matcher.getResultTags();
 var matches = matcher.getMatches();
 var matchless = matcher.getMatchless();
 ```
@@ -63,24 +64,24 @@ var query = ['tag1','tag3','tag5', ...];
 
 var result = [
   {
-    key: ['tag1', 'tag5'],
-    val: ['id3'],
+    tags: ['tag1', 'tag5'],
+    keys: ['id3'],
   },
   {
-    key: ['tag1', 'tag3'],
-    val: ['id1', 'id2'],
+    tags: ['tag1', 'tag3'],
+    keys: ['id1', 'id2'],
   },
   ...
 ]
 
-var keys = [['tag1', 'tag3'], ['tag1', 'tag5']];
+var tags = [['tag1', 'tag3'], ['tag1', 'tag5']];
 
 var matches = ['id1', 'id2', 'id3', ...];
 
 var matchless = [...];
 ```
 
-Note: result is sorted with the most # of key matches are in front. If those lengths are the same, then least # of val matches are in front. The only thing that isn't sorted is the order of each val, and the matches and matchless.
+Note: result is sorted with greatest `tags` lengths in front, then least `keys` lengths are in front. The only thing that isn't sorted is the order of each item in `keys`, and the `matches` and `matchless`. (You can do that yourself...)
 
 ## Conclusion
 
