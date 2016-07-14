@@ -31,11 +31,8 @@ Then, you can generate in 2 ways. Asynchronously, or synchronously. If you have 
 
 ```javascript
 // async
-matcher.generate().then(function ({ result, keys, matches, matchless }) {
-  // result = see below for example of result
-  // keys = array of keys of the results
-  // matches = every id that did match
-  // matchless = every id that didn't match
+matcher.generate().then(function (result) {
+  console.log(result);
 });
 
 // sync
@@ -66,12 +63,12 @@ var query = ['tag1','tag3','tag5', ...];
 
 var result = [
   {
-    key: ['tag1', 'tag3'],
-    val: ['id1', 'id2'],
-  },
-  {
     key: ['tag1', 'tag5'],
     val: ['id3'],
+  },
+  {
+    key: ['tag1', 'tag3'],
+    val: ['id1', 'id2'],
   },
   ...
 ]
