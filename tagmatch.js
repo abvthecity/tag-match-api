@@ -57,13 +57,13 @@ TagMatch.prototype.syncGenerate = function () {
       // found match? check if match exists:
       if (typeof resultRef[arr] === 'undefined') {
         result.push({
-          key: arr,
-          val: [],
+          tags: arr,
+          keys: [],
         });
         resultRef[arr] = result.length - 1;
       }
 
-      result[resultRef[arr]].val.push(id);
+      result[resultRef[arr]].keys.push(id);
       matches.push(id);
     } else {
       matchless.push(id);
@@ -72,8 +72,8 @@ TagMatch.prototype.syncGenerate = function () {
 
   // sort
   result.sort(function (a, b) {
-    var diff = b.key.length - a.key.length;
-    diff = (diff != 0) ? diff : a.val.length - b.val.length;
+    var diff = b.tags.length - a.tags.length;
+    diff = (diff != 0) ? diff : a.keys.length - b.keys.length;
     return diff;
   });
 
@@ -95,9 +95,9 @@ TagMatch.prototype.getResult = function () {
   return this._result;
 };
 
-TagMatch.prototype.getResultKeys = function () {
+TagMatch.prototype.getResultTags = function () {
   return this._result.map(function (item) {
-    return item.key;
+    return item.tags;
   });
 };
 
